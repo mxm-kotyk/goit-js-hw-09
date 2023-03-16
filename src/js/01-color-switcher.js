@@ -12,10 +12,21 @@ refs.startBtn.style.cssText = styleButton(45);
 refs.stopBtn.style.cssText = `${styleButton(55)} ${disabledButtonStyle}`;
 refs.stopBtn.disabled = true;
 
-refs.startBtn.addEventListener('click', startColorChangeOnClick);
-refs.stopBtn.addEventListener('click', stopColorChangeOnClick);
+refs.body.addEventListener('click', handleButtonClick);
 
-function startColorChangeOnClick() {
+function handleButtonClick({ target }) {
+  if (!target.nodeName === 'BUTTON') {
+    return;
+  }
+
+  if (target === refs.startBtn) {
+    startColorChange();
+  } else {
+    stopColorChange();
+  }
+}
+
+function startColorChange() {
   colorIsChanging = true;
   colorChanger = setInterval(() => {
     refs.body.style.backgroundColor = getRandomHexColor();
@@ -30,7 +41,7 @@ function startColorChangeOnClick() {
   }
 }
 
-function stopColorChangeOnClick() {
+function stopColorChange() {
   if (colorIsChanging) {
     refs.startBtn.disabled = false;
     refs.stopBtn.disabled = true;
